@@ -1,0 +1,83 @@
+<div class="upload-page">
+
+  <div class="hero">
+    <h1>🛡️ NexusGuard</h1>
+    <p>AI-Powered Dependency Vulnerability Scanner</p>
+  </div>
+
+  <div class="upload-card">
+
+    <h2>Scan Your Project</h2>
+    <p class="subtitle">
+      Upload your pom.xml to detect 
+      security vulnerabilities instantly
+    </p>
+
+    <!-- File Upload Area -->
+    <div class="drop-zone"
+         (dragover)="onDragOver($event)"
+         (drop)="onDrop($event)"
+         (click)="fileInput.click()">
+
+      <input #fileInput
+             type="file"
+             accept=".xml"
+             (change)="onFileSelected($event)"
+             hidden>
+
+      <div *ngIf="!selectedFile">
+        <div class="upload-icon">📁</div>
+        <p>Drag & drop your pom.xml here</p>
+        <p class="or">or click to browse</p>
+      </div>
+
+      <div *ngIf="selectedFile" class="file-selected">
+        <div class="file-icon">✅</div>
+        <p>{{ selectedFile.name }}</p>
+        <p class="file-size">
+          {{ (selectedFile.size / 1024).toFixed(2) }} KB
+        </p>
+      </div>
+    </div>
+
+    <!-- Project Name Input -->
+    <input class="project-input"
+           type="text"
+           placeholder="Enter project name"
+           [(ngModel)]="projectName">
+
+    <!-- Error Message -->
+    <p class="error" *ngIf="errorMessage">
+      ⚠️ {{ errorMessage }}
+    </p>
+
+    <!-- Scan Button -->
+    <button class="scan-btn"
+            (click)="startScan()"
+            [disabled]="scanning">
+      <span *ngIf="!scanning">
+        🔍 Start Security Scan
+      </span>
+      <span *ngIf="scanning">
+        ⏳ Scanning... Please wait
+      </span>
+    </button>
+
+    <!-- Info -->
+    <div class="info-cards">
+      <div class="info-card">
+        <span>🔍</span>
+        <p>Real CVE Detection</p>
+      </div>
+      <div class="info-card">
+        <span>🤖</span>
+        <p>AI Analysis</p>
+      </div>
+      <div class="info-card">
+        <span>⚡</span>
+        <p>Instant Results</p>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,264 @@
+.history-page {
+  min-height: 100vh;
+  background: #f0f4f8;
+  padding: 24px;
+}
+
+/* Header */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a2e;
+  color: white;
+  padding: 24px 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.history-header h1 {
+  font-size: 28px;
+  color: #00d4ff;
+  margin: 0 0 4px 0;
+}
+
+.history-header p {
+  color: #a0aec0;
+  margin: 0;
+  font-size: 14px;
+}
+
+.new-scan-btn {
+  background: #00d4ff;
+  color: #1a1a2e;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: all 0.3s;
+}
+
+.new-scan-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,212,255,0.3);
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  color: #4a5568;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e2e8f0;
+  border-top: 4px solid #00d4ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error */
+.error-state {
+  text-align: center;
+  padding: 40px;
+  color: #e53e3e;
+  background: white;
+  border-radius: 12px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 40px;
+  background: white;
+  border-radius: 12px;
+  color: #4a5568;
+}
+
+.empty-state p {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.empty-state button {
+  margin-top: 20px;
+  background: #00d4ff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  flex: 1;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: bold;
+  color: #2d3748;
+}
+
+.stat-number.critical {
+  color: #e53e3e;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #718096;
+}
+
+/* Scan Cards */
+.scan-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.scan-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: all 0.3s;
+  border-left: 4px solid #e2e8f0;
+}
+
+.scan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  border-left-color: #00d4ff;
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.project-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.project-info h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2d3748;
+  margin: 0;
+}
+
+.scan-id {
+  font-size: 13px;
+  color: #a0aec0;
+  background: #f7fafc;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.risk-badge {
+  color: white;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Vuln Counts */
+.vuln-counts {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.count-item {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.count-item.critical {
+  background: #fff5f5;
+  color: #e53e3e;
+}
+
+.count-item.high {
+  background: #fffaf0;
+  color: #dd6b20;
+}
+
+.count-item.medium {
+  background: #fffff0;
+  color: #d69e2e;
+}
+
+.count-item.low {
+  background: #f0fff4;
+  color: #38a169;
+}
+
+.count-item.safe {
+  background: #f0fff4;
+  color: #38a169;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.scan-date {
+  font-size: 13px;
+  color: #a0aec0;
+}
+
+.total-vulns {
+  font-size: 13px;
+  color: #718096;
+}
+
+.view-link {
+  font-size: 13px;
+  color: #00d4ff;
+  font-weight: bold;
+}

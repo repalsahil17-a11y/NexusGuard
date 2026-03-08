@@ -1,0 +1,191 @@
+<div class="result-page">
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading scan results...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="error-state">
+    <p>❌ {{ errorMessage }}</p>
+    <button (click)="goBack()">Go Back</button>
+  </div>
+
+  <!-- Results -->
+  <div *ngIf="!loading && scanResult">
+
+    <!-- Header -->
+    <div class="result-header">
+      <div class="header-left">
+        <button class="back-btn" (click)="goBack()">
+          ← Back
+        </button>
+        <div>
+          <h1>🛡️ Scan Results</h1>
+          <p class="project-name">
+            {{ scanResult.projectName }}
+          </p>
+          <p class="scan-date">
+            Scanned: {{ scanResult.scannedAt
+              | date:'medium' }}
+          </p>
+        </div>
+      </div>
+      <button class="history-btn"
+              (click)="goToHistory()">
+        View History
+      </button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+
+      <div class="summary-card total">
+        <div class="card-number">
+          {{ scanResult.totalVulnerabilities }}
+        </div>
+        <div class="card-label">
+          Total Vulnerabilities
+        </div>
+      </div>
+
+      <div class="summary-card critical">
+        <div class="card-number">
+          {{ scanResult.criticalCount }}
+        </div>
+        <div class="card-label">🔴 Critical</div>
+      </div>
+
+      <div class="summary-card high">
+        <div class="card-number">
+          {{ scanResult.highCount }}
+        </div>
+        <div class="card-label">🟠 High</div>
+      </div>
+
+      <div class="summary-card medium">
+        <div class="card-number">
+          {{ scanResult.mediumCount }}
+        </div>
+        <div class="card-label">🟡 Medium</div>
+      </div>
+
+      <div class="summary-card low">
+        <div class="card-number">
+          {{ scanResult.lowCount }}
+        </div>
+        <div class="card-label">🟢 Low</div>
+      </div>
+
+    </div>
+
+    <!-- No Vulnerabilities Found -->
+    <div *ngIf="scanResult.totalVulnerabilities === 0"
+         class="no-vulns">
+      <p>✅ No vulnerabilities found!</p>
+      <p>Your dependencies look safe.</p>
+    </div>
+
+    <!-- Vulnerability List -->
+    <div class="vuln-list"
+         *ngIf="scanResult.totalVulnerabilities > 0">
+
+      <h2>Vulnerabilities Found</h2>
+
+      <div *ngFor="let vuln of scanResult.vulnerabilities"
+           class="vuln-card"
+           [style.background]="getSeverityBg(vuln.severity)"
+           [style.border-left]="'4px solid ' + getSeverityColor(vuln.severity)">
+
+        <!-- Vuln Header -->
+        <div class="vuln-header">
+          <div class="vuln-title">
+            <span class="severity-icon">
+              {{ getSeverityIcon(vuln.severity) }}
+            </span>
+            <span class="library-name">
+              {{ vuln.libraryName }}
+            </span>
+            <span class="version">
+              v{{ vuln.currentVersion }}
+            </span>
+          </div>
+          <div class="header-badges">
+            <span class="severity-badge"
+                  [style.background]="getSeverityColor(vuln.severity)">
+              {{ vuln.severity }}
+            </span>
+            <span class="priority-badge"
+                  [class]="'priority-badge priority-' + vuln.priority?.toLowerCase()">
+              {{ getPriorityIcon(vuln.priority) }}
+              {{ vuln.priority }}
+            </span>
+          </div>
+        </div>
+
+        <!-- CVE ID + Risk Score -->
+        <div class="cve-risk-row">
+          <div class="cve-id">
+            📋 {{ vuln.cveId }}
+          </div>
+          <div class="risk-score"
+               [style.color]="getRiskColor(vuln.riskScore)">
+            ⚡ Risk Score:
+            <strong>{{ vuln.riskScore }}/10</strong>
+          </div>
+        </div>
+
+        <!-- Threat Indicators -->
+        <div class="threat-indicators">
+          <span class="indicator"
+                [class.active]="vuln.exploitAvailable"
+                [class.inactive]="!vuln.exploitAvailable">
+            {{ vuln.exploitAvailable ? '💀' : '✅' }}
+            {{ vuln.exploitAvailable
+                ? 'Public Exploit Available'
+                : 'No Known Exploit' }}
+          </span>
+          <span class="indicator"
+                [class.active]="vuln.versionAffected"
+                [class.inactive]="!vuln.versionAffected">
+            {{ vuln.versionAffected ? '⚠️' : '✅' }}
+            {{ vuln.versionAffected
+                ? 'Your Version Affected'
+                : 'Version Not Affected' }}
+          </span>
+        </div>
+
+        <!-- Fix Version -->
+        <div class="fix-version">
+          ✅ Fix: Upgrade to
+          <strong>v{{ vuln.fixedVersion }}</strong>
+        </div>
+
+        <!-- AI Explanation -->
+        <div class="section">
+          <h4>🤖 AI Analysis</h4>
+          <p>{{ vuln.aiExplanation }}</p>
+        </div>
+
+        <!-- Fix Suggestion -->
+        <div class="section fix-section">
+          <h4>🔧 How to Fix</h4>
+          <p>{{ vuln.aiFixSuggestion }}</p>
+        </div>
+
+        <!-- Description -->
+        <details class="description-details">
+          <summary>
+            📄 View Full CVE Description
+          </summary>
+          <p class="description-text">
+            {{ vuln.description }}
+          </p>
+        </details>
+
+      </div>
+    </div>
+
+  </div>
+</div>

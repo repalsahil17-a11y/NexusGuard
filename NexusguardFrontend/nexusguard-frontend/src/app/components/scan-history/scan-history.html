@@ -1,0 +1,129 @@
+<div class="history-page">
+
+  <!-- Header -->
+  <div class="history-header">
+    <div class="header-left">
+      <h1>📋 Scan History</h1>
+      <p>All past vulnerability scans</p>
+    </div>
+    <button class="new-scan-btn"
+            (click)="goToScan()">
+      + New Scan
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading history...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-state">
+    <p>❌ {{ errorMessage }}</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && scans.length === 0"
+       class="empty-state">
+    <p>🔍 No scans yet</p>
+    <p>Upload a pom.xml to get started</p>
+    <button (click)="goToScan()">
+      Start First Scan
+    </button>
+  </div>
+
+  <!-- Scan List -->
+  <div *ngIf="!loading && scans.length > 0">
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-number">
+          {{ scans.length }}
+        </span>
+        <span class="stat-label">
+          Total Scans
+        </span>
+      </div>
+      <div class="stat">
+        <span class="stat-number critical">
+          {{ scans[0]?.criticalCount || 0 }}
+        </span>
+        <span class="stat-label">
+          Latest Critical
+        </span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">
+          {{ scans[0]?.totalVulnerabilities || 0 }}
+        </span>
+        <span class="stat-label">
+          Latest Total
+        </span>
+      </div>
+    </div>
+
+    <!-- Scan Cards -->
+    <div class="scan-cards">
+      <div *ngFor="let scan of scans"
+           class="scan-card"
+           (click)="viewScan(scan.id)">
+
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="project-info">
+            <h3>{{ scan.projectName }}</h3>
+            <span class="scan-id">
+              #{{ scan.id }}
+            </span>
+          </div>
+          <span class="risk-badge"
+                [style.background]="getRiskColor(scan)">
+            {{ getRiskLevel(scan) }}
+          </span>
+        </div>
+
+        <!-- Vulnerability Counts -->
+        <div class="vuln-counts">
+          <div class="count-item critical"
+               *ngIf="scan.criticalCount > 0">
+            🔴 {{ scan.criticalCount }} Critical
+          </div>
+          <div class="count-item high"
+               *ngIf="scan.highCount > 0">
+            🟠 {{ scan.highCount }} High
+          </div>
+          <div class="count-item medium"
+               *ngIf="scan.mediumCount > 0">
+            🟡 {{ scan.mediumCount }} Medium
+          </div>
+          <div class="count-item low"
+               *ngIf="scan.lowCount > 0">
+            🟢 {{ scan.lowCount }} Low
+          </div>
+          <div class="count-item safe"
+               *ngIf="scan.totalVulnerabilities === 0">
+            ✅ No vulnerabilities
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="card-footer">
+          <span class="scan-date">
+            🕐 {{ scan.scannedAt }}
+          </span>
+          <span class="total-vulns">
+            {{ scan.totalVulnerabilities }}
+            vulnerabilities found
+          </span>
+          <span class="view-link">
+            View Details →
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
